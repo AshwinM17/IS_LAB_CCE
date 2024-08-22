@@ -6,7 +6,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Signature import DSS
 import random
 
-random.seed(42)
+random.seed(40)
 
 def fixed_rng(seed, length):
     random.seed(seed)

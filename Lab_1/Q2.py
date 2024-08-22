@@ -47,7 +47,7 @@ def vignere_decode(P,k):
             Cipher_text+=char
     print(Cipher_text)
 
-def autokey(P,key):
+def autokey(P,key):#key is a number
     if(P[0].islower()):
         add='a'
     else:

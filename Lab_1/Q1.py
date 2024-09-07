@@ -125,3 +125,5 @@ print("Encoded:")
 print(a)
 print("Decoded:")
 Affine_decode(a,15,20)
+
+print(additive_ciphers("HELLO BRO",1))

@@ -1,109 +1,71 @@
-import rsa
-import random
-import hashlib
-from Crypto.Cipher import AES
+from Crypto.PublicKey import ElGamal
 from Crypto.Random import get_random_bytes
+from Crypto.Hash import SHA256
+import os
+import time
 
 
-# --- Key Management System ---
-class KeyManagementSystem:
-    def __init__(self):
-        self.keys = {}
+class DRMSystem:
+    def __init__(self, key_size=2048):
+        self.key_size = key_size
+        self.master_key_pair = None
+        self.content_keys = {}
+        self.access_control = {}
+        self.logs = []
 
-    def generate_rsa_keys(self, system_name):
-        (pubkey, privkey) = rsa.newkeys(2048)
-        self.keys[system_name] = {'public': pubkey, 'private': privkey}
-        print(f"RSA keys generated for {system_name}")
+    def generate_master_key(self):
+        self.master_key_pair = ElGamal.generate(self.key_size, get_random_bytes)
+        self.log("Master key pair generated.")
 
-    def get_public_key(self, system_name):
-        return self.keys[system_name]['public']
+    def encrypt_content(self, content_id, content):
+        h = SHA256.new(content).digest()
+        encrypted_content = self.master_key_pair.encrypt(h, get_random_bytes(16))
+        self.content_keys[content_id] = encrypted_content
+        self.log(f"Content {content_id} encrypted.")
 
-    def get_private_key(self, system_name):
-        return self.keys[system_name]['private']
+    def distribute_key(self, customer_id, content_id):
+        # Example access control: Limited-time access
+        self.access_control[(customer_id, content_id)] = time.time() + 3600
+        self.log(f"Access granted to {customer_id} for content {content_id}.")
 
-    def revoke_key(self, system_name):
-        del self.keys[system_name]
-        print(f"Keys revoked for {system_name}")
+    def revoke_access(self, customer_id, content_id):
+        if (customer_id, content_id) in self.access_control:
+            del self.access_control[(customer_id, content_id)]
+            self.log(f"Access revoked for {customer_id} for content {content_id}.")
 
+    def key_revocation(self):
+        self.generate_master_key()
+        self.log("Master key revoked and renewed.")
 
-# --- Secure Communication System ---
-class SecureCommunication:
-    def __init__(self, key_mgmt):
-        self.kms = key_mgmt
+    def check_access(self, customer_id, content_id):
+        if (customer_id, content_id) in self.access_control:
+            access_time = self.access_control[(customer_id, content_id)]
+            if time.time() <= access_time:
+                return True
+        return False
 
-    def sign_message(self, system_name, message):
-        priv_key = self.kms.get_private_key(system_name)
-        signature = rsa.sign(message.encode(), priv_key, 'SHA-256')
-        return signature
+    def secure_store_key(self):
+        # Simple demonstration: Write key to file with restricted access
+        with open("private_key.pem", "wb") as f:
+            f.write(self.master_key_pair.export_key())
+        os.chmod("private_key.pem", 0o600)
+        self.log("Master private key securely stored.")
 
-    def verify_signature(self, system_name, message, signature):
-        pub_key = self.kms.get_public_key(system_name)
-        try:
-            rsa.verify(message.encode(), signature, pub_key)
-            return True
-        except:
-            return False
-
-    def diffie_hellman_exchange(self):
-        # Simulated Diffie-Hellman key exchange
-        p = 23  # a prime number
-        g = 5  # a primitive root modulo p
-
-        a = random.randint(1, 100)  # System A's private key
-        b = random.randint(1, 100)  # System B's private key
-
-        A = pow(g, a, p)  # System A's public key
-        B = pow(g, b, p)  # System B's public key
-
-        # Shared secrets
-        shared_secret_A = pow(B, a, p)
-        shared_secret_B = pow(A, b, p)
-
-        if shared_secret_A == shared_secret_B:
-            return hashlib.sha256(str(shared_secret_A).encode()).digest()
-        else:
-            raise Exception("Diffie-Hellman key exchange failed.")
-
-    def encrypt_message(self, shared_key, message):
-        cipher = AES.new(shared_key, AES.MODE_EAX)
-        ciphertext, tag = cipher.encrypt_and_digest(message.encode())
-        return (cipher.nonce, ciphertext, tag)
-
-    def decrypt_message(self, shared_key, nonce, ciphertext, tag):
-        cipher = AES.new(shared_key, AES.MODE_EAX, nonce=nonce)
-        plaintext = cipher.decrypt(ciphertext)
-        try:
-            cipher.verify(tag)
-            return plaintext.decode()
-        except ValueError:
-            return "Key incorrect or message corrupted"
+    def log(self, message):
+        self.logs.append(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {message}")
+        print(message)  # For demonstration purposes
 
 
-# --- Main Program ---
-kms = KeyManagementSystem()
-sc = SecureCommunication(kms)
+# Example Usage:
+drm = DRMSystem()
+drm.generate_master_key()
+drm.encrypt_content("content1", b"Some digital content")
+drm.distribute_key("customer1", "content1")
+drm.revoke_access("customer1", "content1")
+drm.key_revocation()
+drm.secure_store_key()
 
-# Generate RSA keys for the systems
-kms.generate_rsa_keys('System A')
-kms.generate_rsa_keys('System B')
-
-# Example of Diffie-Hellman key exchange and communication
-shared_key = sc.diffie_hellman_exchange()
-
-# System A sends an encrypted and signed message to System B
-message = "Confidential Financial Report"
-signature = sc.sign_message('System A', message)
-nonce, ciphertext, tag = sc.encrypt_message(shared_key, message)
-
-# System B receives the message and verifies the signature
-is_valid_signature = sc.verify_signature('System A', message, signature)
-if is_valid_signature:
-    decrypted_message = sc.decrypt_message(shared_key, nonce, ciphertext, tag)
-    print(f"Decrypted Message: {decrypted_message}")
-else:
-    print("Signature verification failed.")
-
-# Revoke a key
-kms.revoke_key('System A')
-
-# The system can be scaled by adding more subsystems with kms.generate_rsa_keys('System X')
+# RSA keys generated for System A
+# RSA keys generated for System B
+# Decrypted Message: Confidential Financial Report
+# Keys revoked for System A

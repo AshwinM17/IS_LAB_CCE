@@ -46,3 +46,8 @@ is_valid = schnorr_verify(message, signature, public_key)
 print("Message:", message)
 print("Signature:", signature)
 print("Signature valid:", is_valid)
+'''
+Message: Hello, Schnorr!
+Signature: (5185333177077342951993056119508348609582172483696247986806123994912346074466, 3617711205748449339879301818086883502428619886787660084371460786457359856972)
+Signature valid: False
+'''

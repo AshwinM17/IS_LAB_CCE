@@ -27,3 +27,6 @@ def custom_hash(input_string):
 input_str = "hello"
 result = custom_hash(input_str)
 print(f"Hash value for '{input_str}': {result}")
+'''
+Hash value for 'hello': 1032782281
+'''

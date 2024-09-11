@@ -34,7 +34,7 @@ def elgamal_decrypt(cipher_text, private_key, p):
 
 # Example usage:
 public_key, private_key = elgamal_keygen()
-message = 12345  # Simple message, convert larger messages into integers
+message = 21481  # Simple message, convert larger messages into integers
 cipher_text = elgamal_encrypt(message, public_key)
 decrypted_message = elgamal_decrypt(cipher_text, private_key, public_key[0])
 
@@ -43,7 +43,7 @@ print("Encrypted message:", cipher_text)
 print("Decrypted message:", decrypted_message)
 
 '''
-Original message: 12345
-Encrypted message: (10069114562865985365784914797161780181153223960110081119530219667336078998286, 40092983642518516986499427458862517595361912667084031267485021300741129738755)
-Decrypted message: 12345
+Original message: 21481
+Encrypted message: (12194202736242736452104259687732138013963292676085872100109611756925981687517, 13635466824176720246146197320790799561264099884392058475002430211342456081084)
+Decrypted message: 21481
 '''

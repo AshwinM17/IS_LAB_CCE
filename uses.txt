@@ -22,7 +22,16 @@ lab 2
             Q2)DES ECB on 2 blocks(same as Q1 normal)
             Q3)AES 256 in ECB mode
             Q4)DES CBC with IV given
-            Q5)AES with Nonce=0x0(16 byte)
-            
+            Q5)AES with Nonce=0x0(8 byte)
+Lab 3
+    Q1)RSA with specific key size using RSA.generate(2048)
+    Q2)ECC 
+    Q3)Elgamel with random keys
+    Q4)File transfer using RSA(2048-bit) and ECC(secp256r1 curve) with key verification of ECC key by SHA-256
+    Q5)Diffie Hellman
+    Addditional)-
+            Q3)RSA without any library and using one char at a time  
+            Q4)Elgamel for  multiple files(communication system between an org) 
+            Q5)RSA (using 2048-bit keys) and ElGamal (using the secp256r1 curve)
 
 

@@ -5,3 +5,6 @@ Lab 1
     Q5: 
         sympy
             mod_inverse(a,26) equivalent to pow(a,-1,26)
+
+lab 2
+    

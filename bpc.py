@@ -16,14 +16,14 @@ class HospitalManagementSystem:
         """
         Generate a SHA-256 hash of the record.
         """
-        return hashlib.sha256(record.encode()).hexdigest()
+        return hashlib.sha256(record.encode()).hexdigest() #returs a hex string
 
     def sign_record(self, patient_id, record):
         """
         Doctor digitally signs the patient record.
         """
         # Hash the record to ensure integrity
-        record_hash = self.hash_record(record)
+        record_hash = self.hash_record(record) #in hex format
 
         # Sign the hash using the doctor's private key
         signature = rsa.sign(record_hash.encode(), self.doctor_private_key, 'SHA-1')
@@ -32,7 +32,7 @@ class HospitalManagementSystem:
         self.patient_records[patient_id] = {
             'record': record,
             'signature': signature,
-            'hash': record_hash
+            'hash': record_hash #in hex format
         }
 
         return signature

@@ -55,5 +55,10 @@ Lab 5
     Q3)Analyze SHA-1 hash,SHA-256,MD5
     Additional):- hashing using SHA256 
 
-Lab 6
+bpc
+    hash using rsa
 
+NOTE:
+ hashlib.sha256(record.encode()).hexdigest()
+ return a 64 hex digits
+ before .hexdigest() we have 32 bytes(ie in bytes as .encode and sha256 returns bytes)

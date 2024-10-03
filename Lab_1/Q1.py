@@ -78,7 +78,7 @@ def Affine_Cipher(P,k1,k2):
 
 def Affine_decode(P,k1,k2):
     try:
-        k1=pow(k1,-1,26)
+        k1=pow(k1,-1,26) #pow(a,b,c) ie (a^b)mod c
     except:
         print("Inverse Doesn't exist so can't be decoded")
         return

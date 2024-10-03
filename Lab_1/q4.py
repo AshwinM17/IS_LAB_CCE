@@ -12,7 +12,7 @@ def hill_cipher_encrypt(message, key_matrix):
     
     for i in range(0, len(message_numbers), 2):
         pair_vector = np.array([[message_numbers[i]], [message_numbers[i+1]]])
-        encrypted_vector = np.dot(key_matrix, pair_vector) % 26
+        encrypted_vector = np.dot(key_matrix, pair_vector) % 26 #size 2*1
         encrypted_message += chr(encrypted_vector[0, 0] + ord('a'))
         encrypted_message += chr(encrypted_vector[1, 0] + ord('a'))
     

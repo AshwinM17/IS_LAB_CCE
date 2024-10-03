@@ -4,7 +4,7 @@ import binascii  # For encoding the encrypted bytes into a readable hex format
 
 def des_encrypt(message: str, key: str) -> str:
     """
-    Encrypts the given message using DES encryption with the provided key.
+    Encrypts the given message using DES encryption with the provided key and ECB.
 
     :param message: The plaintext message to be encrypted.
     :param key: The encryption key (must be 8 bytes long).ie 64 bits
@@ -37,6 +37,7 @@ def des_encrypt(message: str, key: str) -> str:
     
     # Convert the encrypted bytes to a hexadecimal string for readability
     return binascii.hexlify(encrypted_bytes).decode('utf-8')
+    #.decode('utf-8') converts the hex numbers to a string for reading
 
 
 def des_decrypt(encrypted_message: str, key: str) -> str:

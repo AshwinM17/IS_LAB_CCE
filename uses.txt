@@ -7,4 +7,22 @@ Lab 1
             mod_inverse(a,26) equivalent to pow(a,-1,26)
 
 lab 2
-    
+    Q1) DES ECB random padding
+    Q2)AES-128 with in CBC mode with PKCS7 padding.
+    Q3)DES CBC mode with PKCS7 padding
+        AES-256 in CBC mode with PKCS7 padding
+        
+        Calculate times of each as well
+    Q4)Triple DES in CBC mode
+    Q5)AES-192 in ECB mode
+    Addditional)-
+            Q1)DES and AES(128, 192, and 256 bits key).
+                Plot the graph which shows execution time
+                Compare time taken
+            Q2)DES ECB on 2 blocks(same as Q1 normal)
+            Q3)AES 256 in ECB mode
+            Q4)DES CBC with IV given
+            Q5)AES with Nonce=0x0(16 byte)
+            
+
+

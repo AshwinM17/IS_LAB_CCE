@@ -5,7 +5,10 @@ from datetime import datetime, timedelta
 from sympy import isprime
 
 # Directory for storing keys and logs
-KEY_DIRECTORY = 'keys/'
+
+
+KEY_DIRECTORY = 'C:/Users/mitta/Desktop/Ashwin/College/Sem_5/IS' #change path
+
 # Key expiry interval set to 365 days
 KEY_EXPIRY_INTERVAL = timedelta(days=365)
 
@@ -150,7 +153,13 @@ if __name__ == "__main__":
     print(f"Decrypted candidates: {decrypted_candidates}")
 
     # Check which candidate matches the original plaintext
-    decrypted_plaintext = next((pt for pt in decrypted_candidates if pt == plaintext), None)
+    for pt in decrypted_candidates:
+        if pt == plaintext:
+            decrypted_plaintext = pt
+            break
+        else:
+            decrypted_plaintext = None
+    
     
     # Verify if decryption was successful
     if decrypted_plaintext is not None:

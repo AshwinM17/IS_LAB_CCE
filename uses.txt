@@ -35,5 +35,25 @@ Lab 3
             Q5)RSA (using 2048-bit keys) and ElGamal (using the secp256r1 curve)
 
 Lab 4
-    Q1)
+    Q1)diffie hellman key exchange for scalable system and AES encryption (EAX mode)(question had RSA there but not used in code)
+    for RSA replace this with create_system function
+    def generate_rsa_key_pair(self, subsystem_id):
+        # Generate a new RSA key pair for the specified subsystem
+        key = RSA.generate(2048)  # 2048-bit RSA key
+        self.subsystems[subsystem_id] = {
+            'key_pair': key,  # Store the RSA key pair
+            'shared_key': None  # Initialize shared key as None
+            'private' : get_random_bytes(32) 
+        }
+        self.log(f"RSA key pair generated for {subsystem_id}.")
+    
+    Q2)saving key in json file,renewing key ,
+
+Lab 5
+    Q1)simple hash
+    Q2)simple hash in client and server
+    Q3)Analyze SHA-1 hash,SHA-256,MD5
+    Additional):- hashing using SHA256 
+
+Lab 6
 

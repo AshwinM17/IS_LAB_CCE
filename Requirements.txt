@@ -2,3 +2,4 @@ numpy
 sympy
 pycryptodome
 cryptography
+socket

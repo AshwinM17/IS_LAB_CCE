@@ -6,8 +6,9 @@ def create_playfair_matrix(key):
     # Remove duplicates from key and create the matrix with the remaining alphabet
     alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
     matrix = []
-    key = "".join(sorted(set(key), key=key.index))
-    
+    key = "".join(sorted(set(key), key=key.index)) 
+    #The key=key.index-> to preserve the original order of the characters during sorting.
+    #str.join(_char_container_)
     for char in key:
         if char not in matrix:
             matrix.append(char)
@@ -17,9 +18,10 @@ def create_playfair_matrix(key):
             matrix.append(char)
     
     return [matrix[i:i + 5] for i in range(0, 25, 5)]
+    #list with 5 elements,each being a list of 5 letters
 
 def find_position(matrix, char):
-    for i, row in enumerate(matrix):
+    for i, row in enumerate(matrix): # i is the index and row is the element
         if char in row:
             return i, row.index(char)
     return None
@@ -40,7 +42,7 @@ def prepare_text(text):
     prepared_text = ""
     
     i = 0
-    while i < len(text):
+    while i < len(text): #to remove cases where same letter or case of odd letters
         prepared_text += text[i]
         if i + 1 < len(text) and text[i] == text[i + 1]:
             prepared_text += 'X'

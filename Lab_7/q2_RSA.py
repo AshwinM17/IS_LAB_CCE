@@ -64,3 +64,12 @@ if __name__ == "__main__":
     original_product = plaintext1 * plaintext2
     print("Original Product:", original_product)
     print("Verification:", decrypted_product == original_product)
+
+'''
+Ciphertext 1: 182690229
+Ciphertext 2: 85121177
+Encrypted Product: 134286110
+Decrypted Product: 21
+Original Product: 21
+Verification: True
+'''

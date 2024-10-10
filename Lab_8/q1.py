@@ -1,66 +1,96 @@
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
-import os
-
-documents = [
-    "The quick brown fox jumps over the lazy dog",
-    "Symmetric encryption ensures confidentiality",
-    "Searchable encryption enables search over encrypted data",
-    "Data privacy is important in modern applications",
-    "Encryption and decryption are key operations in cryptography",
-    "The quick brown fox likes running",
-    "Confidentiality, integrity, and availability are pillars of security",
-    "Cloud storage often employs encryption for data protection",
-    "Machine learning and data science often require large datasets",
-    "Secure data management is a key concern in the digital age"
-]
-
-# Define a fixed IV for encrypting index words and search queries
-FIXED_IV = b'16_byte_fixed_iv'
-
-# Function to encrypt text with a fixed IV
-def encrypt_text_fixed_iv(key, plaintext):
-    cipher = Cipher(algorithms.AES(key), modes.CFB(FIXED_IV), backend=default_backend())
-    encryptor = cipher.encryptor()
-    ciphertext = encryptor.update(plaintext.encode()) + encryptor.finalize()
-    return ciphertext
-
-# Function to decrypt text with a fixed IV
-def decrypt_text_fixed_iv(key, ciphertext):
-    cipher = Cipher(algorithms.AES(key), modes.CFB(FIXED_IV), backend=default_backend())
-    decryptor = cipher.decryptor()
-    plaintext = decryptor.update(ciphertext) + decryptor.finalize()
-    return plaintext.decode()
-
+import hashlib
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 from collections import defaultdict
 
-# Build an inverted index
-inverted_index = defaultdict(list)
+# 1a. Generate text corpus
+documents = [
+    "the quick brown fox jumps over the lazy dog",
+    "never gonna give you up never gonna let you down",
+    "this is a test document for secure search engine",
+    "data science is an inter-disciplinary field",
+    "machine learning is a subset of artificial intelligence",
+    "deep learning is a branch of machine learning",
+    "natural language processing is a fascinating field",
+    "this document contains various topics on AI",
+    "cryptography is essential for secure communication",
+    "secure search engines protect user privacy"
+]
 
-for doc_id, document in enumerate(documents):
-    words = set(document.lower().split())
-    for word in words:
-        inverted_index[word].append(doc_id)
+# Encryption & Decryption functions using AES
+def get_aes_key():
+    """Generate a random AES key."""
+    return hashlib.sha256(b"supersecretkey").digest()
 
-# Encrypt the index using the fixed IV encryption function
-encrypted_inverted_index = {encrypt_text_fixed_iv(key, word): [doc_id for doc_id in doc_ids]
-                            for word, doc_ids in inverted_index.items()}
 
-# Function to search for a word in the encrypted index
-def search_encrypted_index(query, key, encrypted_index, documents):
-    encrypted_query = encrypt_text_fixed_iv(key, query.lower())
-    
-    # Search for matching terms in the encrypted index
-    results = []
-    for encrypted_word, doc_ids in encrypted_index.items():
-        if encrypted_word == encrypted_query:
-            for doc_id in doc_ids:
-                results.append(documents[doc_id])
-            break
+def encrypt(text, key):
+    """Encrypt text using AES."""
+    cipher = AES.new(key, AES.MODE_CBC)
+    ciphertext = cipher.encrypt(pad(text.encode("utf-8"), AES.block_size))
+    return cipher.iv + ciphertext
 
-    return results
 
-# Search for a word
-query = "encryption"
-search_results = search_encrypted_index(query, key, encrypted_inverted_index, documents)
-print("Search Results:", search_results)
+def decrypt(ciphertext, key):
+    """Decrypt ciphertext using AES."""
+    iv = ciphertext[: AES.block_size]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    decrypted = unpad(cipher.decrypt(ciphertext[AES.block_size :]), AES.block_size)
+    return decrypted.decode("utf-8")
+
+
+# 1c. Create inverted index using word hashes
+def build_inverted_index(docs):
+    index = defaultdict(list)
+    for doc_id, doc in enumerate(docs):
+        for word in doc.split():
+            word_hash = hashlib.sha256(word.lower().encode("utf-8")).hexdigest()
+            index[word_hash].append(doc_id)
+    return index
+
+
+# Encrypt document IDs
+def encrypt_inverted_index(index, key):
+    encrypted_index = {}
+    for word_hash, doc_ids in index.items():
+        encrypted_index[word_hash] = encrypt(",".join(map(str, doc_ids)), key)
+    return encrypted_index
+
+
+# Decrypt inverted index results
+def decrypt_inverted_index_results(encrypted_doc_ids, key):
+    decrypted_doc_ids = decrypt(encrypted_doc_ids, key)
+    return list(map(int, decrypted_doc_ids.split(",")))
+
+
+# 1d. Implement search function
+def search(query, encrypted_index, key, documents):
+    # Hash the query instead of encrypting
+    query_hash = hashlib.sha256(query.lower().encode("utf-8")).hexdigest()
+    if query_hash in encrypted_index:
+        encrypted_doc_ids = encrypted_index[query_hash]
+        doc_ids = decrypt_inverted_index_results(encrypted_doc_ids, key)
+        return [documents[doc_id] for doc_id in doc_ids]
+    else:
+        return []
+
+
+# Main execution
+if __name__ == "__main__":
+    # Generate AES key
+    aes_key = get_aes_key()
+
+    # Build and encrypt inverted index
+    inverted_index = build_inverted_index(documents)
+    encrypted_index = encrypt_inverted_index(inverted_index, aes_key)
+
+    # Take search query input and search
+    query = input("Enter search query: ")
+    results = search(query, encrypted_index, aes_key, documents)
+
+    # Display results
+    if results:
+        print("Documents matching query:")
+        for result in results:
+            print(result)
+    else:
+        print("No matching documents found.")

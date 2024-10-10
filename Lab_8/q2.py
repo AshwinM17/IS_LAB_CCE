@@ -83,3 +83,9 @@ if __name__ == "__main__":
             print(result)
     else:
         print("No matching documents found.")
+
+'''
+Enter search query: held   
+Documents matching query:
+The ancient ruins held secrets that no one had yet uncovered.
+'''

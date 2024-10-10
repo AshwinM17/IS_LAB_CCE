@@ -5,17 +5,18 @@ from collections import defaultdict
 
 # 1a. Generate text corpus
 documents = [
-    "the quick brown fox jumps over the lazy dog",
-    "never gonna give you up never gonna let you down",
-    "this is a test document for secure search engine",
-    "data science is an inter-disciplinary field",
-    "machine learning is a subset of artificial intelligence",
-    "deep learning is a branch of machine learning",
-    "natural language processing is a fascinating field",
-    "this document contains various topics on AI",
-    "cryptography is essential for secure communication",
-    "secure search engines protect user privacy"
+    "The wind howled through the empty streets on a cold evening.",
+    "An orange cat sat silently under the oak tree, watching the world.",
+    "Quantum computing may revolutionize cryptographic systems.",
+    "Bright colors danced across the sky during the sunset .",
+    "The spaceship drifted silently through the vast emptiness of space.",
+    "Baking a cake requires precision and patience for the best results.",
+    "The ancient ruins held secrets that no one had yet uncovered.",
+    "Robots are becoming an essential part of modern manufacturing.",
+    "A mysterious note was left on the doorstep in the dead of night.",
+    "The evolution of technology is accelerating faster than ever before."
 ]
+
 
 # Encryption & Decryption functions using AES
 def get_aes_key():
@@ -94,3 +95,9 @@ if __name__ == "__main__":
             print(result)
     else:
         print("No matching documents found.")
+
+'''
+Enter search query: sunset
+Documents matching query:
+Bright colors danced across the sky during the sunset .
+'''

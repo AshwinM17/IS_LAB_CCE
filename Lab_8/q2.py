@@ -1,3 +1,4 @@
+
 import hashlib
 from phe import paillier
 from collections import defaultdict
@@ -28,7 +29,7 @@ def word_to_hash(word):
 
 
 def encrypt_ids(doc_ids, pub_key):
-    """Encrypt document IDs using Paillier encryption."""
+    """Encrypt document IDs using Paillier encryption.""" 
     return [pub_key.encrypt(doc_id) for doc_id in doc_ids]
 
 

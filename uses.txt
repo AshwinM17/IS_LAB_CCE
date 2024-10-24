@@ -57,7 +57,8 @@ Lab 5
 
 bpc
     hash using rsa
-
+lab 7
+    Q1)
 NOTE:
  hashlib.sha256(record.encode()).hexdigest()
  return a 64 hex digits

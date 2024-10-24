@@ -65,7 +65,7 @@ lab 7
                   benchmark comparision
 lab 8
     Q1) SSE using AES
-    Q2) PKSE using Pailer
+    Q2) PKSE using Paillier
 
 NOTE:
  hashlib.sha256(record.encode()).hexdigest()

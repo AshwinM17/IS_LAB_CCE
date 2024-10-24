@@ -44,6 +44,8 @@ def homomorphic_multiplication(elgamal, ciphertext1, ciphertext2):
 # Example usage
 if __name__ == "__main__":
     elgamal = ElGamal()  # Create an instance of the ElGamal encryption scheme
+    #we are sending this object only to the functions
+
     message1 = 5  # First message to encrypt
     message2 = 3  # Second message to encrypt
 

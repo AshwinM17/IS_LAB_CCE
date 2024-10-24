@@ -58,8 +58,17 @@ Lab 5
 bpc
     hash using rsa
 lab 7
-    Q1)
+    Q1)Paillier (PHE addition ke liye) %n_squared
+    Q2)RSA (PHE multiplicatio ke liyen) %n
+    Additional):- Paillier same as Q1
+                  Elgam (supoorts multiplication)  %p
+                  benchmark comparision
+lab 8
+    Q1) SSE using AES
+    Q2) PKSE using Pailer
+
 NOTE:
  hashlib.sha256(record.encode()).hexdigest()
  return a 64 hex digits
  before .hexdigest() we have 32 bytes(ie in bytes as .encode and sha256 returns bytes)
+ .encode("utf-8") converts string to bytes

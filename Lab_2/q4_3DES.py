@@ -6,9 +6,9 @@ def encrypt(msg, iv):
     """
     Encrypts the message using Triple DES in CBC mode.
 
-    :param msg: The plaintext message to encrypt.
-    :param iv: Initialization vector for CBC mode.
-    :return: A tuple containing the IV and the ciphertext. cipher text is a hex in bytes format
+    :param msg: The plaintext message to encrypt.bytes
+    :param iv: Initialization vector for CBC mode.bytes
+    :return: A tuple containing the IV and the ciphertext. cipher text is in bytes format
     """
     cipher = DES3.new(key, DES3.MODE_CBC, iv=iv)  # Create a new DES3 cipher object
     padded_msg = pad(msg.encode('utf-8'), DES3.block_size)  # Pad the message
@@ -19,9 +19,9 @@ def decrypt(iv, ciphertext):
     """
     Decrypts the ciphertext using Triple DES in CBC mode.
 
-    :param iv: The initialization vector used for encryption.
-    :param ciphertext: The ciphertext to decrypt.
-    :return: The decrypted plaintext message or False if unpadding fails.
+    :param iv: The initialization vector used for encryption.byte
+    :param ciphertext: The ciphertext to decrypt.byte
+    :return: The decrypted plaintext message or False if unpadding fails.string
     """
     cipher = DES3.new(key, DES3.MODE_CBC, iv=iv)  # Create a new DES3 cipher object
     padded_plaintext = cipher.decrypt(ciphertext)  # Decrypt the ciphertext

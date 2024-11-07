@@ -8,9 +8,9 @@ def aes_192_encrypt(msg, key):
     """
     Encrypts a message using AES-192 in ECB mode.
 
-    :param msg: The plaintext message to encrypt.
-    :param key: The encryption key (must be 24 bytes for AES-192).
-    :return: The ciphertext.
+    :param msg: The plaintext message to encrypt.string
+    :param key: The encryption key (must be 24 bytes for AES-192).byte
+    :return: The ciphertext.byte
     """
     cipher = AES.new(key, AES.MODE_ECB)  # Create AES cipher object in ECB mode
     padded_msg = pad(msg.encode('utf-8'), BLOCK_SIZE)  # Pad the message to block size
@@ -21,9 +21,9 @@ def aes_192_decrypt(ciphertext, key):
     """
     Decrypts a ciphertext using AES-192 in ECB mode.
 
-    :param ciphertext: The ciphertext to decrypt.
-    :param key: The decryption key (must be 24 bytes for AES-192).
-    :return: The decrypted plaintext message.
+    :param ciphertext: The ciphertext to decrypt. byte
+    :param key: The decryption key (must be 24 bytes for AES-192).byte
+    :return: The decrypted plaintext message.string
     """
     cipher = AES.new(key, AES.MODE_ECB)  # Create AES cipher object in ECB mode
     padded_plaintext = cipher.decrypt(ciphertext)  # Decrypt the ciphertext

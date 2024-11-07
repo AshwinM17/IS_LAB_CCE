@@ -3,3 +3,4 @@ sympy
 pycryptodome
 cryptography
 socket
+hashlib

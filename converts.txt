@@ -1,0 +1,33 @@
+writing a byte :- b'Hello, World!'
+represents a bytes object containing the ASCII representation of the string "Hello, World!".
+
+
+note hex format means 'numbers and letters in this'
+
+
+hex to bytes 
+    a=binascii.unhexlify(hex_value)
+bytes to hex
+    a=binascii.hexlify(bytes_value))  #still it is a bytes object but each the text inside is of hex where 2 elements correspond to 1 byte in bytes_value
+
+    Therefore to display:(converted to hexstring)
+        a=binascii.hexlify(bytes_value).decode('utf-8') as decode directly displays the bytes as string  
+            a='huygfcvgb'.encode('utf-8')
+            print(a)
+            print(a.decode('utf-8'))
+            
+            b'huygfcvgb'
+            huygfcvgb
+
+string to bytes
+
+    a=string_value.encode('utf-8')
+bytes to string
+    a=string_value.decode('utf-8')
+
+
+
+
+string to hex
+
+hex to string

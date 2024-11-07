@@ -83,8 +83,13 @@ plaintext = 'Sensitive Information'  # The plaintext message to encrypt
 
 # Encrypt the message
 ciphertext = encrypt_aes_128(key_hex, plaintext)
-print(f'Ciphertext (hex): {binascii.hexlify(ciphertext).decode()}')
+print(f'Ciphertext (hex): {binascii.hexlify(ciphertext).decode('utf-8')}')
 
 # Decrypt the message back to plaintext
 decrypted_message = decrypt_aes_128(key_hex, ciphertext)
 print(f'Decrypted message: {decrypted_message}')
+
+
+a='huygfcvgb'.encode('utf-8')
+print(a)
+print(a.decode('utf-8'))

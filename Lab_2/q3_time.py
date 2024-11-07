@@ -11,8 +11,8 @@ def encrypt_aes_256(key, plaintext):
     Encrypts the plaintext using AES-256 in CBC mode with PKCS7 padding.
 
     :param key: A 32-byte key for AES-256.
-    :param plaintext: The plaintext message to be encrypted.
-    :return: The ciphertext.
+    :param plaintext: The plaintext message to be encrypted.string
+    :return: The ciphertext.bytes
     """
     # Add PKCS7 padding to ensure the plaintext is a multiple of the block size (128 bits = 16 bytes for AES)
     padder = padding.PKCS7(algorithms.AES.block_size).padder()
@@ -31,9 +31,9 @@ def decrypt_aes_256(key, ciphertext):
     """
     Decrypts the given AES-256 ciphertext in CBC mode with PKCS7 padding.
 
-    :param key: A 32-byte key for AES-256.
-    :param ciphertext: The ciphertext to be decrypted.
-    :return: The decrypted plaintext message.
+    :param key: A 32-byte key for AES-256. 
+    :param ciphertext: The ciphertext to be decrypted.bytes
+    :return: The decrypted plaintext message.string
     """
     # Create an AES cipher object in CBC mode using the same key and IV
     cipher = Cipher(algorithms.AES(key), modes.CBC(b'\x00' * 16), backend=default_backend())
@@ -53,8 +53,8 @@ def encrypt_des(key, plaintext):
     Encrypts the plaintext using DES in CBC mode with PKCS7 padding.
 
     :param key: A 8-byte key for DES.
-    :param plaintext: The plaintext message to be encrypted.
-    :return: The ciphertext.
+    :param plaintext: The plaintext message to be encrypted. string
+    :return: The ciphertext. bytes
     """
     # Add padding to the plaintext to ensure it fits the block size for DES
     padded_plaintext = pad(plaintext.encode('utf-8'), DES.block_size)
@@ -72,8 +72,8 @@ def decrypt_des(key, ciphertext):
     Decrypts the given DES ciphertext in CBC mode.
 
     :param key: A 8-byte key for DES.
-    :param ciphertext: The ciphertext to be decrypted.
-    :return: The decrypted plaintext message.
+    :param ciphertext: The ciphertext to be decrypted. bytes
+    :return: The decrypted plaintext message. string
     """
     # Create a DES cipher object in CBC mode using the same key and IV
     cipher = DES.new(key, DES.MODE_CBC, iv=b'\x00' * 8)
@@ -109,7 +109,8 @@ des_encryption_time = time.time() - start_time
 start_time = time.time()
 des_decrypted_message = decrypt_des(des_key, des_ciphertext)
 des_decryption_time = time.time() - start_time
-
+print(type(des_ciphertext))
+print(type(des_decrypted_message))
 # Print out the time taken for encryption and decryption
 print(f"AES-256 Encryption Time: {aes_encryption_time:.8f} seconds")
 print(f"AES-256 Decryption Time: {aes_decryption_time:.6f} seconds")

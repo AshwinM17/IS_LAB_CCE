@@ -19,8 +19,9 @@ bytes to hex
             b'huygfcvgb'
             huygfcvgb
 
-string to bytes
 
+
+string to bytes
     a=string_value.encode('utf-8')
 bytes to string
     a=string_value.decode('utf-8')
@@ -31,3 +32,109 @@ bytes to string
 string to hex
 
 hex to string
+
+
+
+
+
+
+def string_to_ascii(input_string):
+    """Convert a string to a list of ASCII numbers."""
+    return [ord(char) for char in input_string]
+
+def hex_to_int(hex_string):
+    """Convert a hex string to an integer."""
+    return int(hex_string, 16)
+
+def ascii_to_string(ascii_numbers):
+    """Convert a list of ASCII numbers to a string."""
+    return ''.join(chr(num) for num in ascii_numbers)
+
+def int_to_hex(integer):
+    """Convert an integer to a hexadecimal string."""
+    return hex(integer)[2:]  # Remove the '0x' prefix
+
+def int_to_string(integer):
+    """Convert an integer to a string."""
+    return str(integer)
+
+def bin_to_int(bin_string):
+    """Convert a binary string to an integer."""
+    return int(bin_string, 2)
+
+def int_to_bin(integer):
+    """Convert an integer to a binary string."""
+    return bin(integer)[2:]  # Remove the '0b' prefix
+
+
+def string_to_bytes(input_string):
+    return input_string.encode('utf-8')
+
+# Convert bytes to string
+def bytes_to_string(input_bytes):
+    return input_bytes.decode('utf-8')
+
+def int_to_bytes(input_int):
+    return input_int.to_bytes((input_int.bit_length() + 7) // 8, 'big') or b'\0'
+
+# Convert bytes to integer
+def bytes_to_int(input_bytes):
+    return int.from_bytes(input_bytes, 'big')
+
+
+if _name_ == "_main_":
+    while True:
+        print("\nSelect an operation:")
+        print("1. String to ASCII")
+        print("2. Hex to Int")
+        print("3. ASCII to String")
+        print("4. Int to Hex")
+        print("5. Int to String")
+        print("6. Bin to Int")
+        print("7. Int to Bin")
+        print("8. Exit")
+
+        choice = input("Enter your choice (1-8): ")
+
+        if choice == '1':
+            input_string = input("Enter a string: ")
+            ascii_result = string_to_ascii(input_string)
+            print(f"String to ASCII: {ascii_result}")
+
+        elif choice == '2':
+            hex_string = input("Enter a hex string: ")
+            int_result = hex_to_int(hex_string)
+            print(f"Hex to Int: {int_result}")
+
+        elif choice == '3':
+            ascii_input = input("Enter ASCII numbers separated by spaces: ")
+            ascii_numbers = list(map(int, ascii_input.split()))
+            string_result = ascii_to_string(ascii_numbers)
+            print(f"ASCII to String: '{string_result}'")
+
+        elif choice == '4':
+            integer_value = int(input("Enter an integer: "))
+            hex_result = int_to_hex(integer_value)
+            print(f"Int to Hex: {hex_result}")
+
+        elif choice == '5':
+            integer_value = int(input("Enter an integer: "))
+            string_from_int = int_to_string(integer_value)
+            print(f"Int to String: '{string_from_int}'")
+
+        elif choice == '6':
+            bin_string = input("Enter a binary string: ")
+            int_from_bin = bin_to_int(bin_string)
+            print(f"Bin to Int: {int_from_bin}")
+
+        elif choice == '7':
+            integer_value = int(input("Enter an integer: "))
+            bin_from_int = int_to_bin(integer_value)
+            print(f"Int to Bin: '{bin_from_int}'")
+
+        elif choice == '8':
+            print("Exiting...")
+            break
+
+        else:
+            print("Invalid choice. Please select again.")

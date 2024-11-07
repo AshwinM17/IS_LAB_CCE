@@ -46,13 +46,26 @@ class Paillier:
     def add_encrypted(self, c1, c2):
         # Perform homomorphic addition on two ciphertexts
         return (c1 * c2) % self.n_squared
+    def subtract_encrypted(self, c1, c2):
+        # Compute the modular inverse of c2 mod n_squared
+        c2_inv = mod_inverse(c2, self.n_squared)
+        # Return the product of c1 and c2_inv mod n_squared
+        return (c1 * c2_inv) % self.n_squared
+    
+    def is_greater_encrypted(self, c1, c2):
+        # Subtract c2 from c1 homomorphically
+        encrypted_difference = self.subtract_encrypted(c1, c2)
+        # Decrypt the result
+        decrypted_difference = self.decrypt(encrypted_difference)
+        # Check if the decrypted difference is positive
+        return decrypted_difference > 0
 
 if __name__ == "__main__":
     # Instantiate the Paillier cryptosystem
     paillier = Paillier()
 
     # Encrypt two integers
-    plaintext1 = 15
+    plaintext1 = 35
     plaintext2 = 25
     ciphertext1 = paillier.encrypt(plaintext1)
     ciphertext2 = paillier.encrypt(plaintext2)
@@ -69,11 +82,18 @@ if __name__ == "__main__":
     decrypted_sum = paillier.decrypt(encrypted_sum)
     print("Decrypted Sum:", decrypted_sum)
 
+    
     # Verify it matches the sum of the original integers
     original_sum = plaintext1 + plaintext2
     print("Original Sum:", original_sum)
     print("Verification:", decrypted_sum == original_sum)
 
+    encrypted_diff=paillier.subtract_encrypted(ciphertext1, ciphertext2)
+    decrypted_diff=paillier.decrypt(encrypted_diff)
+    print("Decrypted Difference:", decrypted_diff)
+
+    is_greater = paillier.is_greater_encrypted(ciphertext1, ciphertext2)
+    print("Is Ciphertext 1 greater than Ciphertext 2:", is_greater)
     '''
     Ciphertext 1: 3653018541427117186365109123105054017149446540590768615764739567884048431924896988696234885550971458249946106884541024772858480179494434253495017870588681764596307797984024143309097924266325762862476182041211170568245809864077979188169682709617928417031438485979810603136665221455404436039519181509126809778625494978743085771407152568226650735396003673861226344690054216645547946165104673597601709100575629858540346348374142032776761064924292659551615461318665405120581625448289483820326646648316791191034764410594623867585418228252267130531129586664530224117503053244853896012698364608648710180584465034629855344787
 Ciphertext 2: 232383519165858393442660529325624894783068420032446748226257041762829991599247091036064504633029825520784364551160918382732127257369523004662624087956040685034479888546056146761101097780278396569887880766390120828007534607088690451036533270214955652643772094849255086281304650814327585129314185252454555067765956653252420147119335063121795894944560713695380104091714268834676395538480861917236193157729604031488198811273592488393687326180730234662129569301860416999052104102699957202250628928271962228146318102405666826922298118837025019575031644546655050736606433156298469640159769607926258270384879047053478478531

@@ -19,7 +19,7 @@ def server_program():
     complete_message = ""
     while True:
         data = conn.recv(1024).decode()  # Receive data from the client
-        if not data:  # Break if no data is received
+        if not data or data=='xxxx':  # Break if no data is received
             break
         print(f"Received part: {data}")
         complete_message += data  # Reassemble the message

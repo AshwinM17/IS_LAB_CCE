@@ -8,7 +8,7 @@ def encrypt(msg, iv):
 
     :param msg: The plaintext message to encrypt.
     :param iv: Initialization vector for CBC mode.
-    :return: A tuple containing the IV and the ciphertext.
+    :return: A tuple containing the IV and the ciphertext. cipher text is a hex in bytes format
     """
     cipher = DES3.new(key, DES3.MODE_CBC, iv=iv)  # Create a new DES3 cipher object
     padded_msg = pad(msg.encode('utf-8'), DES3.block_size)  # Pad the message
@@ -69,6 +69,7 @@ message = "Classified Text"
 fixed_iv = b'01234567' 
 
 iv, ciphertext = encrypt(message, fixed_iv)
+print(ciphertext)
 print(f'Ciphertext (hex): {ciphertext.hex()}')
 plaintext = decrypt(iv, ciphertext)
 print(f'Plaintext: {plaintext}')

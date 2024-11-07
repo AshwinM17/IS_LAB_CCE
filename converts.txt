@@ -30,8 +30,10 @@ bytes to string
 
 
 string to hex
-
+    hex_representation = input_string.encode('utf-8').hex()
 hex to string
+    string_representation = binascii.unhexlify(hex_string).decode('utf-8')
+
 
 
 
